@@ -41,7 +41,7 @@ if news_id in posted_news:
     print("Ingen ny nyhet att posta.")
 else:
     # Formatera inlägget
-    content = f"{title}\n{link} #DIFhockey"
+    content = f"{title}\n\n{link}\n\n#DIFhockey"
 
     # Logga in och posta på Bluesky
     client = Client()
