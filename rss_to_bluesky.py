@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 # Ladda miljövariabler från .env
 load_dotenv()
 
-RSS_FEED_URL = "DIN_NYA_SVENSKAFANS_RSS_URL"
+RSS_FEED_URL = "https://www.svenskafans.com/rss/team/251"
 
 USERNAME = os.getenv("BLUESKY_USERNAME")
 APP_PASSWORD = os.getenv("BLUESKY_APP_PASSWORD")
