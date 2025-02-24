@@ -8,14 +8,13 @@ from dotenv import load_dotenv
 # Ladda miljövariabler från .env
 load_dotenv()
 
-# ---- Uppdaterad RSS-länk ----
-RSS_FEED_URL = "https://www.svenskafans.com/rss/team/251"
+RSS_FEED_URL = "DIN_NYA_SVENSKAFANS_RSS_URL"
 
 USERNAME = os.getenv("BLUESKY_USERNAME")
 APP_PASSWORD = os.getenv("BLUESKY_APP_PASSWORD")
 POSTED_FILE = "posted_news.json"
 
-# ---- Hämta RSS-flödet ----
+# Hämta RSS-flödet
 response = requests.get(RSS_FEED_URL)
 raw_data = response.text
 feed = feedparser.parse(raw_data)
@@ -29,24 +28,35 @@ title = latest_entry.title
 link = latest_entry.link
 news_id = latest_entry.id
 
-# ---- Ladda tidigare postade nyheter ----
+# Skapa en facet för att markera länken
+facets = [{
+    "index": {
+        "byteStart": len(title) + 2,  # Positionen där länken börjar i texten
+        "byteEnd": len(title) + 2 + len(link)  # Positionen där länken slutar
+    },
+    "features": [{
+        "$type": "app.bsky.richtext.facet#link",
+        "uri": link
+    }]
+}]
+
+# Kolla om vi redan har postat nyheten
 if os.path.exists(POSTED_FILE):
     with open(POSTED_FILE, "r") as f:
         posted_news = json.load(f)
 else:
     posted_news = []
 
-# ---- Kontrollera om nyheten redan är postad ----
 if news_id in posted_news:
     print("Ingen ny nyhet att posta.")
 else:
-    # Formatera inlägget
-    content = f"{title}\n\n🔗 {link}\n\n#DIFhockey"
+    # Formatera inlägget och använd facets för att tvinga en klickbar länk
+    content = f"{title}\n\n{link}\n\n#DIFhockey"
 
-    # Logga in och posta på Bluesky
+    # Logga in och posta på Bluesky med facets
     client = Client()
     client.login(USERNAME, APP_PASSWORD)
-    client.post(content)
+    client.post(content, facets=facets)
 
     print("✅ Postat på Bluesky:", content)
 
