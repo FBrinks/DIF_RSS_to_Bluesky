@@ -1,0 +1,27 @@
+name: Post RSS to Bluesky
+
+on:
+  schedule:
+    - cron: "0 */2 * * *"  # Körs varannan timme
+  workflow_dispatch:  # Möjlighet att köra manuellt
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.x"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run script
+        env:
+          BLUESKY_USERNAME: ${{ secrets.BLUESKY_USERNAME }}
+          BLUESKY_APP_PASSWORD: ${{ secrets.BLUESKY_APP_PASSWORD }}
+        run: python rss_to_bluesky.py
