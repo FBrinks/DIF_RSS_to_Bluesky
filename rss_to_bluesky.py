@@ -24,6 +24,18 @@ def authenticate():
         print(f"⚠️ Authentication failed: {auth_response.text}")
         exit()
 
+# Load posted news
+def load_posted_news():
+    if os.path.exists("posted_news.json"):
+        with open("posted_news.json", "r") as file:
+            return json.load(file)
+    return []
+
+# Save posted news
+def save_posted_news(posted_news):
+    with open("posted_news.json", "w") as file:
+        json.dump(posted_news, file)
+
 # Fetch RSS Feed
 RSS_FEED_URL = "https://www.svenskafans.com/rss/team/251"
 feed = feedparser.parse(requests.get(RSS_FEED_URL).text)
@@ -35,6 +47,12 @@ if not feed.entries:
 latest_entry = feed.entries[0]
 title = latest_entry.title
 link = latest_entry.link
+
+# Check if the news has already been posted
+posted_news = load_posted_news()
+if link in posted_news:
+    print("ℹ️ News has already been posted. Exiting.")
+    exit()
 
 # Fetch embed URL card
 def fetch_embed_url_card(access_token: str, url: str) -> dict:
@@ -117,6 +135,9 @@ def post_to_bluesky(access_token, title, link):
     
     if post_response.status_code == 200:
         print("✅ Successfully posted to Bluesky with a clickable hyperlink and website card embed!")
+        # Update posted news
+        posted_news.append(link)
+        save_posted_news(posted_news)
     else:
         print(f"⚠️ Failed to post: {post_response.text}")
 
