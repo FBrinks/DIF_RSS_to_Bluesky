@@ -2,8 +2,8 @@ name: Post RSS to Bluesky
 
 on:
   schedule:
-    - cron: "0 */2 * * *"  # Körs varannan timme
-  workflow_dispatch:  # Möjlighet att köra manuellt
+    - cron: "0 */2 * * *"  # Actions run every 2 hours
+  workflow_dispatch:  # Manually run workflow
 
 jobs:
   run-script:

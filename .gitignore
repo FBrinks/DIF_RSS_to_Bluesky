@@ -1,22 +1,3 @@
-echo "venv/" > .gitignore
-echo ".vscode/" >> .gitignore
-echo "posted_news.json" >> .gitignore
-echo "testing_feed.py" >> .gitignore
-
-.env # Add this to .gitignore
-
-# Add this to .gitignore
-testing_feed.py 
-
-# macOS
-.DS_Store
-
-# Node.js
-node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
 # Python
 __pycache__/
 *.py[cod]
@@ -31,11 +12,21 @@ ENV/
 env.bak/
 venv.bak/
 
+# macOS
+.DS_Store
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
 # Logs
 *.log
 
 # IDEs
 .idea/
+.vscode/
 *.suo
 *.ntvs*
 *.njsproj
@@ -46,3 +37,7 @@ venv.bak/
 *.bak
 *.tmp
 *.old
+
+# Project-specific
+testing_feed.py
+testing_webscraping.py
