@@ -2,11 +2,11 @@ name: Post RSS to Bluesky
 
 on:
   schedule:
-    - cron: "0 */2 * * *"  # Actions run every 2 hours
-  workflow_dispatch:  # Manually run workflow
+    - cron: "0 */2 * * *"  # Runs every 2 hours
+  workflow_dispatch:  # Allow manual runs
 
 jobs:
-  run-script:
+  post-news:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
@@ -22,6 +22,8 @@ jobs:
         with:
           path: posted_news.json
           key: posted-news-cache
+          restore-keys: |
+            posted-news-cache-
 
       - name: Install dependencies
         run: pip install -r requirements.txt
@@ -32,8 +34,10 @@ jobs:
           BLUESKY_APP_PASSWORD: ${{ secrets.BLUESKY_APP_PASSWORD }}
         run: python rss_to_bluesky.py
 
-      - name: Save posted_news.json cache
-        uses: actions/cache@v3
-        with:
-          path: posted_news.json
-          key: posted-news-cache
+      - name: Save posted_news.json
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git add posted_news.json
+          git commit -m "Update posted_news.json to track posted news" || echo "No changes to commit"
+          git push origin main || echo "No changes to push"
