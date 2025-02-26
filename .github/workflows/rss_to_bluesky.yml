@@ -5,6 +5,9 @@ on:
     - cron: "0 */2 * * *"  # Runs every 2 hours
   workflow_dispatch:  # Allow manual runs
 
+permissions:  # This allows the workflow to push updates
+  contents: write
+
 jobs:
   post-news:
     runs-on: ubuntu-latest
@@ -16,14 +19,6 @@ jobs:
         uses: actions/setup-python@v3
         with:
           python-version: "3.x"
-
-      - name: Restore posted_news.json cache
-        uses: actions/cache@v3
-        with:
-          path: posted_news.json
-          key: posted-news-cache
-          restore-keys: |
-            posted-news-cache-
 
       - name: Install dependencies
         run: pip install -r requirements.txt
@@ -38,6 +33,7 @@ jobs:
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
+          git pull origin main --rebase  # Fetch latest changes to prevent conflicts
           git add posted_news.json
           git commit -m "Update posted_news.json to track posted news" || echo "No changes to commit"
           git push origin main || echo "No changes to push"
