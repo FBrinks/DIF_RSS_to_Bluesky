@@ -54,13 +54,20 @@ def fetch_dif_hockey_news():
                 if not full_link.endswith("/view"):
                     full_link += "/view"
                 
-                # Extract timestamp and other available metadata directly from API
+                # Extract full ISO timestamp with time information
                 timestamp = time.time()  # Default to current time
                 if "publishedDate" in article_item:
                     try:
-                        publish_date = article_item["publishedDate"].split("T")[0]
-                        timestamp = time.mktime(time.strptime(publish_date, "%Y-%m-%d"))
-                    except (ValueError, IndexError):
+                        # Use the full ISO timestamp instead of just the date
+                        published_date_str = article_item["publishedDate"]
+                        # Handle both with and without milliseconds formats
+                        if '.' in published_date_str:
+                            timestamp = time.mktime(time.strptime(published_date_str.split('.')[0], "%Y-%m-%dT%H:%M:%S"))
+                        else:
+                            timestamp = time.mktime(time.strptime(published_date_str, "%Y-%m-%dT%H:%M:%S"))
+                        print(f"DIF article timestamp: {time.ctime(timestamp)}")
+                    except (ValueError, IndexError) as e:
+                        print(f"⚠️ Error parsing timestamp: {e}, using current time")
                         pass
                 
                 # Get any available image from the API response
@@ -181,10 +188,22 @@ def process_all_news(access_token):
     # Fetch all news
     all_articles = fetch_dif_hockey_news() + fetch_svenskafans_rss_news()
     
+    # Print timestamps before sorting
+    print("\nArticles before sorting:")
+    for article in all_articles:
+        date_string = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(article["timestamp"]))
+        print(f"- {article['source']}: {date_string} - {article['title']}")
+    
     # Sort by timestamp (oldest first)
     all_articles.sort(key=lambda x: x["timestamp"])
     
-    print(f"Processing {len(all_articles)} articles in chronological order")
+    # Print timestamps after sorting
+    print("\nArticles after sorting (oldest first):")
+    for article in all_articles:
+        date_string = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(article["timestamp"]))
+        print(f"- {article['source']}: {date_string} - {article['title']}")
+    
+    print(f"\nProcessing {len(all_articles)} articles in chronological order (oldest first)")
     
     # Post each article
     for article in all_articles:
