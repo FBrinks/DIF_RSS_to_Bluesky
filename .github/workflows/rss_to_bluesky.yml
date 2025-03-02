@@ -27,7 +27,7 @@ jobs:
         env:
           BLUESKY_USERNAME: ${{ secrets.BLUESKY_USERNAME }}
           BLUESKY_APP_PASSWORD: ${{ secrets.BLUESKY_APP_PASSWORD }}
-        run: python rss_to_bluesky.py
+        run: python news_fetcher.py
 
       - name: Save posted_news.json
         run: |
