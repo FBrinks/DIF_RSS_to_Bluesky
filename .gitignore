@@ -42,3 +42,7 @@ yarn-error.log*
 testing_feed.py
 testing_webscraping.py
 webscrape_difhockeysenews.py
+
+# posted news articles
+posted_news.json
+.gitignore
