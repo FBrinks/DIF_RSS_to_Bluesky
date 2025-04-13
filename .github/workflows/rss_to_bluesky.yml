@@ -2,14 +2,14 @@ name: Post RSS to Bluesky
 
 on:
   schedule:
-    - cron: "*/30 * * * *"  # Runs every 2 hours
+    - cron: "*/30 * * * *"  # Runs every 30 minutes
   workflow_dispatch:  # Allow manual runs
 
-permissions:  # This allows the workflow to push updates
+permissions:
   contents: write
 
 jobs:
-  post-news:
+  post-hockey-news:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
@@ -23,18 +23,47 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Run script
+      - name: Run hockey script
         env:
           BLUESKY_USERNAME: ${{ secrets.BLUESKY_USERNAME }}
           BLUESKY_APP_PASSWORD: ${{ secrets.BLUESKY_APP_PASSWORD }}
         run: python news_fetcher.py
 
-      - name: Save posted_news.json
+      - name: Save hockey posted news
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
           git add posted_news.json
-          git commit -m "Update posted_news.json to track posted news" || echo "No changes to commit"
-          git pull origin main --rebase || echo "Skipping pull due to unstaged changes"
-          git push origin main || echo "No changes to push"
+          git commit -m "Update hockey posted_news.json" || echo "No changes to commit"
+          git pull --rebase || echo "Pull failed, continuing anyway"
+          git push || echo "No changes to push"
+
+  post-football-news:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.x"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run football script
+        env:
+          BLUESKY_USERNAME: ${{ secrets.BLUESKY_USERNAME_FOOTBALL }}
+          BLUESKY_APP_PASSWORD: ${{ secrets.BLUESKY_APP_PASSWORD_FOOTBALL }}
+        run: python news_fetcher_diffotboll.py
+
+      - name: Save football posted news
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git add posted_news_football.json
+          git commit -m "Update football posted_news.json" || echo "No changes to commit"
+          git pull --rebase || echo "Pull failed, continuing anyway"
+          git push || echo "No changes to push"
 
