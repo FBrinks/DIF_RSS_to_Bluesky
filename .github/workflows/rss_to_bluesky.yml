@@ -54,8 +54,8 @@ jobs:
 
       - name: Run football script
         env:
-          BLUESKY_USERNAME: ${{ secrets.BLUESKY_USERNAME_FOOTBALL }}
-          BLUESKY_APP_PASSWORD: ${{ secrets.BLUESKY_APP_PASSWORD_FOOTBALL }}
+          BLUESKY_USERNAME_FOOTBALL: ${{ secrets.BLUESKY_USERNAME_FOOTBALL }}
+          BLUESKY_APP_PASSWORD_FOOTBALL: ${{ secrets.BLUESKY_APP_PASSWORD_FOOTBALL }}
         run: python news_fetcher_diffotboll.py
 
       - name: Save football posted news
