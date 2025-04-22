@@ -116,7 +116,7 @@ def post_to_bluesky(access_token, article_url, title=None, description=None, ima
             if blob:
                 embed["external"]["thumb"] = blob
         
-        post_text = f"{title}\n\nDIF Fotboll\n\n{article_url}"
+        post_text = f"{title}\n\nDjurgården Fotboll\n\n{article_url}"
         post_payload = {
             "repo": BLUESKY_USERNAME_FOOTBALL,
             "collection": "app.bsky.feed.post",
