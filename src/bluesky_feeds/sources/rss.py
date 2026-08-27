@@ -21,12 +21,14 @@ class RssSource:
         self.timeout = timeout
 
     def fetch(self) -> list[Article]:
+        headers = {
+            "User-Agent": "BlueskyFeeds/1.0",
+            "Accept": "application/rss+xml, application/xml;q=0.9, text/xml;q=0.8",
+        }
+        headers.update(dict(self.config.headers))
         request = Request(
             self.config.url,
-            headers={
-                "User-Agent": "BlueskyFeeds/1.0",
-                "Accept": "application/rss+xml, application/xml;q=0.9, text/xml;q=0.8",
-            },
+            headers=headers,
         )
         with urlopen(request, timeout=self.timeout) as response:
             document = response.read()
