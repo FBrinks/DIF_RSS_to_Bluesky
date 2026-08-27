@@ -1,0 +1,76 @@
+[account]
+key = "scf"
+name = "Svenska Cykelförbundet"
+handle_env = "SCF_BLUESKY_HANDLE"
+app_password_env = "SCF_BLUESKY_APP_PASSWORD"
+state_file = "state/scf.json"
+
+[[sources]]
+type = "rss"
+name = "Bancykel"
+url = "https://scf.se/bancykel/feed/"
+channel = "bancykel"
+hashtag = "bancykel"
+
+[[sources]]
+type = "rss"
+name = "BMX"
+url = "https://scf.se/bmx/feed/"
+channel = "bmx"
+hashtag = "bmx"
+
+[[sources]]
+type = "rss"
+name = "Cykelcross"
+url = "https://scf.se/cykelcross/feed/"
+channel = "cykelcross"
+hashtag = "cykelcross"
+
+[[sources]]
+type = "rss"
+name = "E-cycling"
+url = "https://scf.se/e-cycling/feed/"
+channel = "e-cycling"
+hashtag = "ecycling"
+
+[[sources]]
+type = "rss"
+name = "Gravel"
+url = "https://scf.se/gravel/feed/"
+channel = "gravel"
+hashtag = "gravel"
+
+[[sources]]
+type = "rss"
+name = "Landsväg"
+url = "https://scf.se/landsvag/feed/"
+channel = "landsväg"
+hashtag = "landsväg"
+
+[[sources]]
+type = "rss"
+name = "Mountainbike"
+url = "https://scf.se/mountainbike/feed/"
+channel = "mountainbike"
+hashtag = "mountainbike"
+
+[[sources]]
+type = "rss"
+name = "Paracykel"
+url = "https://scf.se/paracykel/feed/"
+channel = "paracykel"
+hashtag = "paracykel"
+
+[[sources]]
+type = "rss"
+name = "Trial"
+url = "https://scf.se/trial/feed/"
+channel = "trial"
+hashtag = "trial"
+
+[[sources]]
+type = "rss"
+name = "Förbundet"
+url = "https://scf.se/forbundet/feed/"
+channel = "förbundet"
+hashtag = "förbundet"
