@@ -8,6 +8,8 @@ from typing import Iterable, Protocol
 
 from .config import load_account_config
 from .models import AccountConfig, Article, SourceConfig
+from .sources.dif_football import DifFootballSource
+from .sources.dif_hockey import DifHockeySource
 from .sources.rss import RssSource
 from .state import PublishedState
 
@@ -29,6 +31,10 @@ class RunResult:
 def build_source(config: SourceConfig):
     if config.type == "rss":
         return RssSource(config)
+    if config.type == "dif_hockey":
+        return DifHockeySource(config)
+    if config.type == "dif_football":
+        return DifFootballSource(config)
     raise ValueError(f"Unsupported source type {config.type!r}")
 
 
