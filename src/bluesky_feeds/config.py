@@ -46,6 +46,7 @@ def _load_source(data: dict) -> SourceConfig:
         url=_required_text(data, "url"),
         channel=_optional_text(data, "channel"),
         hashtag=hashtag,
+        headers=_headers(data.get("headers")),
     )
 
 
@@ -63,3 +64,17 @@ def _optional_text(data: dict, key: str) -> str | None:
     if not isinstance(value, str) or not value.strip():
         raise ValueError(f"Expected a non-empty string for {key!r}")
     return value.strip()
+
+
+def _headers(value: object) -> tuple[tuple[str, str], ...]:
+    if value is None:
+        return ()
+    if not isinstance(value, dict):
+        raise ValueError("Expected 'headers' to be a TOML table")
+
+    headers: list[tuple[str, str]] = []
+    for key, header_value in value.items():
+        if not isinstance(key, str) or not isinstance(header_value, str):
+            raise ValueError("HTTP header names and values must be strings")
+        headers.append((key, header_value))
+    return tuple(headers)
