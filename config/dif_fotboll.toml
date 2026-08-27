@@ -1,0 +1,23 @@
+[account]
+key = "dif_fotboll"
+name = "Djurgården Fotboll"
+handle_env = "BLUESKY_USERNAME_FOOTBALL"
+app_password_env = "BLUESKY_APP_PASSWORD_FOOTBALL"
+state_file = "posted_news_football.json"
+post_label = "Djurgården Fotboll"
+
+[[sources]]
+type = "dif_football"
+name = "DIF Fotboll"
+url = "https://www.dif.se/api/news-feed?includeVideosHiddenInListings=true&plain=true&orderBy=DateDesc&offset=0&limit=25"
+
+[[sources]]
+type = "rss"
+name = "SvenskaFans Fotboll"
+url = "https://www.svenskafans.com/rss/team/46"
+
+[sources.headers]
+"User-Agent" = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/122.0.0.0 Safari/537.36"
+Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+Referer = "https://www.svenskafans.com/"
+"Accept-Language" = "sv-SE,sv;q=0.9,en;q=0.8"
