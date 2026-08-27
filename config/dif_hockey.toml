@@ -1,0 +1,23 @@
+[account]
+key = "dif_hockey"
+name = "Djurgården Hockey"
+handle_env = "BLUESKY_USERNAME"
+app_password_env = "BLUESKY_APP_PASSWORD"
+state_file = "posted_news.json"
+post_label = "Djurgården Hockey"
+
+[[sources]]
+type = "dif_hockey"
+name = "DIF Hockey"
+url = "https://www.difhockey.se/api/articles/site-news/list?page=0&pagesize=25&orderByDate=desc"
+
+[[sources]]
+type = "rss"
+name = "SvenskaFans Hockey"
+url = "https://www.svenskafans.com/rss/team/251"
+
+[sources.headers]
+"User-Agent" = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/122.0.0.0 Safari/537.36"
+Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+Referer = "https://www.svenskafans.com/"
+"Accept-Language" = "sv-SE,sv;q=0.9,en;q=0.8"
