@@ -28,6 +28,7 @@ class SourceConfig:
     url: str
     channel: str | None = None
     hashtag: str | None = None
+    headers: tuple[tuple[str, str], ...] = ()
 
 
 @dataclass(frozen=True, slots=True)
