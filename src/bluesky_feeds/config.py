@@ -28,6 +28,7 @@ def load_account_config(path: str | Path) -> AccountConfig:
         handle_env=_required_text(account, "handle_env"),
         app_password_env=_required_text(account, "app_password_env"),
         state_file=_required_text(account, "state_file"),
+        post_label=_optional_text(account, "post_label"),
         sources=sources,
     )
 
