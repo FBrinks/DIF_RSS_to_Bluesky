@@ -37,6 +37,12 @@ class AccountConfigTests(unittest.TestCase):
 
         self.assertEqual(source.hashtag, "ecycling")
 
+    def test_svenskafans_headers_are_source_configuration(self):
+        config = load_account_config(ROOT / "config" / "dif_hockey.toml")
+        source = next(source for source in config.sources if source.type == "rss")
+
+        self.assertEqual(dict(source.headers)["Referer"], "https://www.svenskafans.com/")
+
 
 if __name__ == "__main__":
     unittest.main()
