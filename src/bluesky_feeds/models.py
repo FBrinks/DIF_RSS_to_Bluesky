@@ -39,4 +39,5 @@ class AccountConfig:
     handle_env: str
     app_password_env: str
     state_file: str
+    post_label: str | None
     sources: tuple[SourceConfig, ...]
