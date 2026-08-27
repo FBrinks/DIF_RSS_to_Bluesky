@@ -4,6 +4,7 @@ name = "Svenska Cykelförbundet"
 handle_env = "SCF_BLUESKY_HANDLE"
 app_password_env = "SCF_BLUESKY_APP_PASSWORD"
 state_file = "state/scf.json"
+post_label = "Svenska Cykelförbundet"
 
 [[sources]]
 type = "rss"
